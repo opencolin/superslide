@@ -149,8 +149,22 @@ function parseBlock(block: string, index: number): RawSlide {
 }
 
 function stripMarkdownPrefix(line: string): string {
+  // Drop table separator rows entirely: |---|---|---| or |:--|--:|
+  if (/^\s*\|?\s*[:|\-\s]+\|[:|\-\s]+\s*\|?\s*$/.test(line) && line.includes("-"))
+    return "";
+  // Convert table data rows "| a | b | c |" into a readable "a · b · c"
+  if (/^\s*\|.+\|\s*$/.test(line)) {
+    return line
+      .replace(/^\s*\|/, "")
+      .replace(/\|\s*$/, "")
+      .split("|")
+      .map((c) => c.trim())
+      .filter(Boolean)
+      .join(" · ");
+  }
   return line
     .replace(/^\s*[-*+]\s+/, "")
     .replace(/^\s*\d+\.\s+/, "")
-    .replace(/^\s*>\s?/, "");
+    .replace(/^\s*>\s?/, "")
+    .replace(/^#{3,6}\s+/, "");
 }

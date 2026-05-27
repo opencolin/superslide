@@ -25,6 +25,53 @@ const slideRight = {
   show: { x: 0, transition: { duration: 0.5, ease: [0.2, 0.7, 0.2, 1] as const } },
 };
 
+/* Inline markdown -------------------------------------------------------- */
+/* Render emphasis, code, and links from raw markdown text. Cheap regex-based
+   tokenizer — we render slide BODIES, not whole documents, so this is plenty.
+   Also strips leading H3+ heading markers (`### foo` → `foo`) so a markdown
+   parser-leaked heading doesn't show as raw `###`. */
+
+const INLINE_RE = /\*\*([^*\n]+)\*\*|\*([^*\n]+)\*|`([^`\n]+)`|\[([^\]]+)\]\(([^)\s]+)\)/g;
+
+function renderInline(text: string): React.ReactNode {
+  const cleaned = text.replace(/^#{1,6}\s+/, "");
+  const matches = Array.from(cleaned.matchAll(INLINE_RE));
+  if (matches.length === 0) return cleaned;
+  const parts: React.ReactNode[] = [];
+  let lastIdx = 0;
+  for (const m of matches) {
+    const start = m.index ?? 0;
+    if (start > lastIdx) parts.push(cleaned.slice(lastIdx, start));
+    const key = `${start}-${m[0].length}`;
+    if (m[1] !== undefined) {
+      parts.push(<strong key={key} className="font-semibold">{m[1]}</strong>);
+    } else if (m[2] !== undefined) {
+      parts.push(<em key={key} className="italic">{m[2]}</em>);
+    } else if (m[3] !== undefined) {
+      parts.push(
+        <code key={key} className="rounded bg-fg/10 px-1 py-0.5 font-mono text-[0.88em]">
+          {m[3]}
+        </code>,
+      );
+    } else if (m[4] !== undefined && m[5] !== undefined) {
+      parts.push(
+        <a
+          key={key}
+          href={m[5]}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="underline underline-offset-2 hover:text-accent-fg"
+        >
+          {m[4]}
+        </a>,
+      );
+    }
+    lastIdx = start + m[0].length;
+  }
+  if (lastIdx < cleaned.length) parts.push(cleaned.slice(lastIdx));
+  return parts;
+}
+
 /* Shared slide chrome ----------------------------------------------------- */
 
 function Eyebrow({ children }: { children: React.ReactNode }) {
@@ -114,33 +161,54 @@ export function BulletsSlide({
 }: {
   slide: Extract<Slide, { kind: "bullets" }>;
 }) {
+  // Density: tighten padding, gap, and font as bullet count climbs so 5–6
+  // items still fit a single viewport without overflow.
+  const n = slide.bullets.length;
+  const dense = n >= 5;
+  const med = n === 4;
+  const itemPad = dense ? "p-3.5" : med ? "p-4" : "p-5";
+  const listGap = dense ? "gap-2.5" : med ? "gap-3" : "gap-4";
+  const textCls = dense
+    ? "text-[15px] leading-snug"
+    : med
+      ? "text-base leading-snug md:text-lg"
+      : "text-lg font-medium leading-snug md:text-xl";
+  const hintCls = dense ? "text-xs leading-snug" : "text-sm leading-relaxed";
+
   return (
     <motion.div
       variants={stagger}
       initial="hidden"
       animate="show"
-      className="grid h-full w-full grid-cols-1 items-center gap-12 px-[7vw] py-[6vh] lg:grid-cols-[1fr_1.4fr]"
+      className="grid h-full w-full grid-cols-1 items-center gap-10 px-[7vw] py-[6vh] lg:grid-cols-[1fr_1.4fr] lg:gap-12"
     >
       <div className="flex flex-col gap-5">
         <Eyebrow>{slide.eyebrow ?? "Why"}</Eyebrow>
         <SlideHeading>{slide.title}</SlideHeading>
       </div>
-      <motion.ul variants={stagger} className="flex flex-col gap-4">
+      <motion.ul
+        variants={stagger}
+        className={`flex max-h-full flex-col overflow-y-auto scrollbar-hidden ${listGap}`}
+      >
         {slide.bullets.map((b, i) => (
           <motion.li
             key={i}
             variants={slideRight}
-            className="group flex items-start gap-4 rounded-xl border border-line bg-surface/60 p-5 transition-colors hover:border-line-strong hover:bg-surface"
+            className={`group flex items-start gap-3 rounded-xl border border-line bg-surface/60 ${itemPad} transition-colors hover:border-line-strong hover:bg-surface`}
           >
-            <span className="mt-1 flex h-7 w-7 flex-none items-center justify-center rounded-full bg-accent text-accent-fg text-sm font-semibold">
+            <span
+              className={`flex flex-none items-center justify-center rounded-full bg-accent text-accent-fg font-semibold ${
+                dense ? "mt-0.5 h-6 w-6 text-xs" : "mt-1 h-7 w-7 text-sm"
+              }`}
+            >
               {String(i + 1).padStart(2, "0")}
             </span>
-            <div className="flex flex-col gap-1.5">
-              <span className="text-lg font-medium leading-snug text-fg md:text-xl">
-                {b.text}
+            <div className="flex flex-col gap-1 min-w-0">
+              <span className={`font-medium text-fg ${textCls}`}>
+                {renderInline(b.text)}
               </span>
               {b.hint && (
-                <span className="text-sm text-fg-muted leading-relaxed">{b.hint}</span>
+                <span className={`text-fg-muted ${hintCls}`}>{renderInline(b.hint)}</span>
               )}
             </div>
           </motion.li>
@@ -408,6 +476,23 @@ export function TimelineSlide({
 }: {
   slide: Extract<Slide, { kind: "timeline" }>;
 }) {
+  // Dynamic column count so 5 steps stay in one row at lg+ instead of
+  // wrapping to a second row that overflows the viewport. Cap at 6 for
+  // readability; the schema already caps at 5.
+  const n = slide.steps.length;
+  // Strings kept literal so Tailwind's source scanner picks them up.
+  const lgCols =
+    n >= 6
+      ? "lg:grid-cols-6"
+      : n === 5
+        ? "lg:grid-cols-5"
+        : n === 3
+          ? "lg:grid-cols-3"
+          : n === 2
+            ? "lg:grid-cols-2"
+            : "lg:grid-cols-4";
+  const itemPad = n >= 5 ? "p-4" : "p-5";
+
   return (
     <motion.div
       variants={stagger}
@@ -421,24 +506,26 @@ export function TimelineSlide({
       </div>
       <motion.ol
         variants={stagger}
-        className="grid gap-5 md:grid-cols-2 lg:grid-cols-4"
+        className={`grid gap-4 grid-cols-2 ${lgCols}`}
       >
         {slide.steps.map((step, i) => (
           <motion.li
             key={i}
             variants={fadeUp}
-            className="relative flex flex-col gap-3 rounded-2xl border border-line bg-surface p-5"
+            className={`relative flex flex-col gap-3 rounded-2xl border border-line bg-surface ${itemPad}`}
           >
             <span className="text-xs font-mono uppercase tracking-widest text-fg-muted">
               {step.when ?? `Step ${i + 1}`}
             </span>
             <span className="text-base font-semibold leading-snug text-fg">
-              {step.label}
+              {renderInline(step.label)}
             </span>
             {step.body && (
-              <span className="text-sm leading-relaxed text-fg-muted">{step.body}</span>
+              <span className="text-sm leading-relaxed text-fg-muted">
+                {renderInline(step.body)}
+              </span>
             )}
-            {i < slide.steps.length - 1 && (
+            {i < n - 1 && (
               <span className="absolute right-[-12px] top-1/2 hidden -translate-y-1/2 text-accent lg:block">
                 <ArrowRight size={20} />
               </span>
