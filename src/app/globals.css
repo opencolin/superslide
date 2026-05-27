@@ -1,0 +1,162 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+/* =============================================================================
+   Superslide design tokens — defaults to Nebius theme.
+   Light:  warm off-white background, deep navy text, neon-lime joy color.
+   Dark:   deep navy background, lime joy color stays vibrant.
+   Verified against nebius.com CSS bundle (2026-05).
+   ========================================================================= */
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-elevated: var(--elevated);
+  --color-fg: var(--fg);
+  --color-fg-muted: var(--fg-muted);
+  --color-fg-subtle: var(--fg-subtle);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-accent: var(--accent);
+  --color-accent-fg: var(--accent-fg);
+  --color-brand: var(--brand);
+  --color-brand-fg: var(--brand-fg);
+  --color-brand-hover: var(--brand-hover);
+  --color-ring: var(--ring);
+  --font-sans: var(--font-sans);
+  --font-mono: var(--font-mono);
+  --font-display: var(--font-display);
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --shadow-card: 0 1px 2px rgba(5,43,66,0.04), 0 8px 24px rgba(5,43,66,0.06);
+  --shadow-lift: 0 2px 4px rgba(5,43,66,0.06), 0 16px 40px rgba(5,43,66,0.10);
+  --animate-shimmer: shimmer 2.4s linear infinite;
+  --animate-float: float 6s ease-in-out infinite;
+  --animate-breathe: breathe 3s ease-in-out infinite;
+}
+
+:root {
+  /* Nebius light */
+  --bg:         #f3efe8;
+  --surface:    #ffffff;
+  --elevated:   #ffffff;
+  --fg:         #052b42;
+  --fg-muted:   rgba(5,43,66,0.62);
+  --fg-subtle:  rgba(5,43,66,0.42);
+  --line:       rgba(5,43,66,0.10);
+  --line-strong:rgba(5,43,66,0.20);
+  --accent:     #e0ff4f;
+  --accent-fg:  #052b42;
+  --brand:      #052b42;
+  --brand-fg:   #ffffff;
+  --brand-hover:rgba(5,43,66,0.85);
+  --ring:       rgba(5,43,66,0.35);
+  --font-sans:  var(--font-inter), "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-display: var(--font-inter), "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-mono:  var(--font-jetbrains), Menlo, Monaco, Consolas, "Ubuntu Mono", "Courier New", monospace;
+}
+
+.dark {
+  --bg:         #061a26;
+  --surface:    #0a2638;
+  --elevated:   #0f3047;
+  --fg:         #e8eff4;
+  --fg-muted:   rgba(232,239,244,0.62);
+  --fg-subtle:  rgba(232,239,244,0.40);
+  --line:       rgba(232,239,244,0.12);
+  --line-strong:rgba(232,239,244,0.24);
+  --accent:     #e0ff4f;
+  --accent-fg:  #052b42;
+  --brand:      #e0ff4f;
+  --brand-fg:   #052b42;
+  --brand-hover:#c8e545;
+  --ring:       rgba(224,255,79,0.55);
+}
+
+@layer base {
+  * { border-color: var(--color-line); }
+  html, body { margin: 0; padding: 0; }
+  html { color-scheme: light; }
+  html.dark { color-scheme: dark; }
+  /* R3F Canvas: fill parent. R3F's resize observer is async and the canvas
+     defaults to 300x150 on first paint; this keeps it sized to the wrapper
+     until R3F catches up. */
+  .r3f-wrap > div,
+  .r3f-wrap canvas { width: 100% !important; height: 100% !important; display: block; }
+  body {
+    background: var(--color-bg);
+    color: var(--color-fg);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-feature-settings: "cv11", "ss01";
+  }
+  ::selection {
+    background: var(--color-accent);
+    color: var(--color-accent-fg);
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-ring);
+    outline-offset: 2px;
+  }
+}
+
+/* Reusable utility shapes */
+@layer utilities {
+  .text-display {
+    font-family: var(--font-display);
+    letter-spacing: -0.025em;
+    line-height: 1.02;
+  }
+  .text-balance { text-wrap: balance; }
+  .text-pretty  { text-wrap: pretty; }
+  .glass {
+    background: color-mix(in oklab, var(--color-surface) 70%, transparent);
+    backdrop-filter: blur(12px) saturate(140%);
+    -webkit-backdrop-filter: blur(12px) saturate(140%);
+  }
+  .grain {
+    background-image:
+      radial-gradient(rgba(5,43,66,0.06) 1px, transparent 1px),
+      radial-gradient(rgba(5,43,66,0.04) 1px, transparent 1px);
+    background-size: 24px 24px, 13px 13px;
+    background-position: 0 0, 12px 7px;
+  }
+  .dark .grain {
+    background-image:
+      radial-gradient(rgba(224,255,79,0.05) 1px, transparent 1px),
+      radial-gradient(rgba(232,239,244,0.03) 1px, transparent 1px);
+  }
+  .accent-rule {
+    background: linear-gradient(90deg, transparent, var(--color-accent), transparent);
+  }
+  .scrollbar-hidden::-webkit-scrollbar { display: none; }
+  .scrollbar-hidden { -ms-overflow-style: none; scrollbar-width: none; }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-8px); }
+}
+@keyframes breathe {
+  0%, 100% { transform: scale(1); opacity: 0.9; }
+  50%      { transform: scale(1.05); opacity: 0.6; }
+}
+@keyframes slide-in-right {
+  from { opacity: 0; transform: translateX(24px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+@keyframes slide-in-left {
+  from { opacity: 0; transform: translateX(-24px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
