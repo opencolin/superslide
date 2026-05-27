@@ -46,7 +46,7 @@ const features = [
   {
     icon: Compass,
     title: "Themes that ship",
-    body: "Nebius, Vercel, Arctic, Oxide, or generate one from your URL. Swap with a single prop — content is theme-free.",
+    body: "Neon, Vercel, Arctic, Oxide, or generate one from your URL. Swap with a single prop — content is theme-free.",
   },
   {
     icon: Rocket,

@@ -1,15 +1,15 @@
 import type { Theme } from "@/lib/deck/schema";
 
 /**
- * Nebius brand tokens — verified against nebius.com (2026-05) and
- * github.com/opencolin/nebius-devsite.
+ * Neon theme — palette originally sampled from nebius.com (2026-05).
+ * Neon-lime accent on warm off-white reads like a modern infra / OSS brand.
  *
  * Light: warm off-white #f3efe8 / navy #052b42 / neon-lime #e0ff4f
  * Dark:  deep navy #061a26 / lime stays vibrant against the navy
  */
-export const nebiusTheme: Theme = {
-  id: "nebius",
-  name: "Nebius",
+export const neonTheme: Theme = {
+  id: "neon",
+  name: "Neon",
   source: "builtin",
   colors: {
     bg: "#f3efe8",
@@ -32,12 +32,12 @@ export const nebiusTheme: Theme = {
   vibe: "editorial",
 };
 
-export const nebiusDarkTheme: Theme = {
-  ...nebiusTheme,
-  id: "nebius-dark",
-  name: "Nebius Dark",
+export const darkNeonTheme: Theme = {
+  ...neonTheme,
+  id: "dark-neon",
+  name: "Dark Neon",
   colors: {
-    ...nebiusTheme.colors,
+    ...neonTheme.colors,
     bg: "#061a26",
     surface: "#0a2638",
     elevated: "#0f3047",

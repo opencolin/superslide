@@ -2,10 +2,10 @@
 @import "tw-animate-css";
 
 /* =============================================================================
-   Superslide design tokens — defaults to Nebius theme.
+   Superslide design tokens — defaults to Neon theme.
    Light:  warm off-white background, deep navy text, neon-lime joy color.
    Dark:   deep navy background, lime joy color stays vibrant.
-   Verified against nebius.com CSS bundle (2026-05).
+   Palette originally sampled from nebius.com (2026-05).
    ========================================================================= */
 
 @theme inline {
@@ -38,7 +38,7 @@
 }
 
 :root {
-  /* Nebius light */
+  /* Neon — light */
   --bg:         #f3efe8;
   --surface:    #ffffff;
   --elevated:   #ffffff;

@@ -1,9 +1,9 @@
 import type { Deck } from "./schema";
-import { nebiusTheme } from "@/lib/themes/nebius";
+import { neonTheme } from "@/lib/themes/neon";
 
 /**
- * Showpiece demo deck — themed after the Nebius design language verified
- * against nebius.com + github.com/opencolin/nebius-devsite.
+ * Showpiece demo deck — content is a Nebius Builders Network pitch, rendered
+ * in the Neon theme (palette originally sampled from nebius.com, 2026-05).
  *
  * Narrative: the original "Nebius Builders Network" pitch was a flat PPTX.
  * Superslide ingested it and rebuilt it as this interactive web slideshow.
@@ -13,7 +13,7 @@ export const nebiusBuildersDeck: Deck = {
   title: "Nebius Builders Network",
   subtitle: "AI infrastructure, for the people building on top of it.",
   author: "Nebius Developer Relations",
-  theme: nebiusTheme,
+  theme: neonTheme,
   slides: [
     {
       id: "s1",

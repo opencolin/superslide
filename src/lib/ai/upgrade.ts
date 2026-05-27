@@ -1,7 +1,7 @@
 import { generateText } from "ai";
 import { z } from "zod";
 import type { Deck, RawDeck, Slide, Theme } from "@/lib/deck/schema";
-import { nebiusTheme } from "@/lib/themes/nebius";
+import { neonTheme } from "@/lib/themes/neon";
 import { slugify } from "@/lib/utils";
 
 /**
@@ -20,7 +20,7 @@ export async function upgradeRawDeck(
   raw: RawDeck,
   opts: { theme?: Theme; model?: string } = {},
 ): Promise<Deck> {
-  const theme = opts.theme ?? nebiusTheme;
+  const theme = opts.theme ?? neonTheme;
   const hasGateway =
     !!process.env.AI_GATEWAY_API_KEY || !!process.env.VERCEL_OIDC_TOKEN;
 

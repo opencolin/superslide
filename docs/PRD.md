@@ -136,7 +136,7 @@ We explicitly de-prioritize: students, casual users making birthday slideshows, 
 
 ### 7.3 Theme system
 - **Theme = JSON.** Schema: `colors` (10 keys), `fonts` (3 keys), `radius` (3 enum), `vibe` (6 enum).
-- Five built-in themes at V0: Nebius (light + dark), Vercel, Arctic, Oxide.
+- Five built-in themes at V0: Neon (light + dark), Vercel, Arctic, Oxide.
 - Themes are 100% decoupled from content. Same `Slide[]` renders against any theme.
 - V1: **brand-from-URL** generator (see Flow D).
 - V1: **theme editor** — visual color picker + font dropdown + live preview.

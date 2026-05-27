@@ -7,10 +7,10 @@ import { themeToCssVars } from "@/lib/themes/css";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 
-const themeIds = ["nebius", "nebius-dark", "vercel", "arctic", "oxide"] as const;
+const themeIds = ["neon", "dark-neon", "vercel", "arctic", "oxide"] as const;
 
 export function ThemePicker() {
-  const [active, setActive] = useState<(typeof themeIds)[number]>("nebius");
+  const [active, setActive] = useState<(typeof themeIds)[number]>("neon");
   const theme = themes[active];
   const cssVars = themeToCssVars(theme);
 

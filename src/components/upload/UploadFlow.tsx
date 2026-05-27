@@ -17,7 +17,7 @@ export function UploadFlow() {
   const [stage, setStage] = useState<Stage>("idle");
   const [file, setFile] = useState<File | null>(null);
   const [raw, setRaw] = useState<RawDeck | null>(null);
-  const [themeId, setThemeId] = useState<string>("nebius");
+  const [themeId, setThemeId] = useState<string>("neon");
   const [deck, setDeck] = useState<Deck | null>(null);
   const [error, setError] = useState<string | null>(null);
 

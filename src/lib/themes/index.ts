@@ -1,9 +1,9 @@
 import type { Theme } from "@/lib/deck/schema";
-import { nebiusTheme, nebiusDarkTheme } from "./nebius";
+import { neonTheme, darkNeonTheme } from "./neon";
 
 export const themes: Record<string, Theme> = {
-  nebius: nebiusTheme,
-  "nebius-dark": nebiusDarkTheme,
+  neon: neonTheme,
+  "dark-neon": darkNeonTheme,
   vercel: {
     id: "vercel",
     name: "Vercel",
@@ -65,9 +65,9 @@ export const themes: Record<string, Theme> = {
   },
 };
 
-export { nebiusTheme, nebiusDarkTheme };
+export { neonTheme, darkNeonTheme };
 
 export function getTheme(id: string | undefined | null): Theme {
-  if (!id) return nebiusTheme;
-  return themes[id] ?? nebiusTheme;
+  if (!id) return neonTheme;
+  return themes[id] ?? neonTheme;
 }
