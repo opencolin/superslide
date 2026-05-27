@@ -2,7 +2,7 @@
 
 **Upgrade your existing slide deck into a fully interactive web slideshow — themed to your brand, animated with real web tech, deployable as a real Next.js app you own.**
 
-You drop a PPTX, PDF, or Keynote. Within seconds you get a slideshow rendered as React + shadcn + Three.js, themed to a brand you choose (or one inferred from a URL). Present it, share a URL, or export the Next.js source.
+You drop a PPTX, PDF, Keynote, or Markdown file. Within seconds you get a slideshow rendered as React + shadcn + Three.js, themed to a brand you choose (or one inferred from a URL). Present it, share a URL, or export the Next.js source.
 
 ## Why it exists
 

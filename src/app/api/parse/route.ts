@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { parsePptx } from "@/lib/deck/parse-pptx";
 import { parsePdf } from "@/lib/deck/parse-pdf";
+import { parseMarkdown } from "@/lib/deck/parse-markdown";
 
 export const runtime = "nodejs";
 export const maxDuration = 60;
@@ -21,6 +22,10 @@ export async function POST(req: NextRequest) {
     }
     if (ext === "pdf") {
       const raw = await parsePdf(buf, file.name);
+      return NextResponse.json(raw);
+    }
+    if (ext === "md" || ext === "markdown" || ext === "mdx") {
+      const raw = parseMarkdown(buf, file.name);
       return NextResponse.json(raw);
     }
     return NextResponse.json(

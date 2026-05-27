@@ -206,7 +206,7 @@ export const rawSlideSchema = z.object({
 export type RawSlide = z.infer<typeof rawSlideSchema>;
 
 export const rawDeckSchema = z.object({
-  source: z.enum(["pptx", "pdf", "keynote", "manual"]),
+  source: z.enum(["pptx", "pdf", "keynote", "markdown", "manual"]),
   title: z.string(),
   slides: z.array(rawSlideSchema),
 });

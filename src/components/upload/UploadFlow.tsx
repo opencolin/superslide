@@ -47,6 +47,7 @@ export function UploadFlow() {
       "application/vnd.ms-powerpoint": [".ppt"],
       "application/pdf": [".pdf"],
       "application/vnd.apple.keynote": [".key"],
+      "text/markdown": [".md", ".markdown", ".mdx"],
     },
     maxFiles: 1,
     maxSize: 50 * 1024 * 1024,
@@ -124,7 +125,7 @@ export function UploadFlow() {
               {isDragActive ? "Drop it." : "Drag a deck here, or click to browse."}
             </p>
             <p className="mt-2 text-sm text-fg-muted">
-              .pptx · .ppt · .pdf · .key · max 50MB
+              .pptx · .ppt · .pdf · .key · .md · max 50MB
             </p>
           </div>
         )}

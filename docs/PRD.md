@@ -118,7 +118,8 @@ We explicitly de-prioritize: students, casual users making birthday slideshows, 
 ## 7. Functional requirements
 
 ### 7.1 Deck ingest (parser)
-- Support inputs: `.pptx`, `.ppt`, `.pdf`, `.key`, `.odp`. Max 50MB at V0, 200MB at V1.
+- Support inputs: `.pptx`, `.ppt`, `.pdf`, `.key`, `.odp`, `.md`/`.markdown`/`.mdx`. Max 50MB at V0, 200MB at V1.
+- Markdown convention follows Reveal.js / Marp / Slidev: `---` separates slides, first `#` becomes the title, fenced code blocks collapse to a single text entry, YAML frontmatter sets deck-level metadata, `<!-- notes: ... -->` extracts speaker notes.
 - Extract per slide: title, body text (preserving bullet structure), speaker notes, image references, slide-level metadata.
 - V1: extract embedded images, charts (as data), tables, basic formatting (bold/italic/color hints).
 - V1: import from URL — Google Slides, Notion, Loom embed, public Gamma deck.
