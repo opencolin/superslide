@@ -5,7 +5,6 @@
    Superslide design tokens — defaults to Neon theme.
    Light:  warm off-white background, deep navy text, neon-lime joy color.
    Dark:   deep navy background, lime joy color stays vibrant.
-   Palette originally sampled from nebius.com (2026-05).
    ========================================================================= */
 
 @theme inline {

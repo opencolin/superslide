@@ -211,7 +211,7 @@ Single repo, no microservices in V0–V2. All state lives in the user's session 
 ## 10. Phased roadmap
 
 ### V0 — Wedge build (shipped)
-Marketing landing, upload flow, parser, AI Gateway upgrader, 5 themes, slide renderer with 11 kinds, Nebius showpiece demo. Built in one day.
+Marketing landing, upload flow, parser, AI Gateway upgrader, 5 themes, slide renderer with 11 kinds, Cinder Builders showpiece demo. Built in one day.
 
 ### V1 — Public beta (target: 6 weeks)
 - Persistence (Postgres + Blob)

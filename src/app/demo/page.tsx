@@ -1,12 +1,12 @@
 import { SlideRunner } from "@/components/slides/SlideRunner";
-import { nebiusBuildersDeck } from "@/lib/deck/sample-nebius";
+import { cinderBuildersDeck } from "@/lib/deck/sample-cinder";
 
 export const metadata = {
-  title: "Nebius Builders — Superslide demo",
+  title: "Cinder Builders — Superslide demo",
   description:
     "What a flat PPTX looks like after Superslide rebuilds it as an interactive web slideshow.",
 };
 
 export default function DemoPage() {
-  return <SlideRunner deck={nebiusBuildersDeck} />;
+  return <SlideRunner deck={cinderBuildersDeck} />;
 }

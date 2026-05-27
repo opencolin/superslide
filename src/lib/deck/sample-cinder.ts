@@ -2,17 +2,16 @@ import type { Deck } from "./schema";
 import { neonTheme } from "@/lib/themes/neon";
 
 /**
- * Showpiece demo deck — content is a Nebius Builders Network pitch, rendered
- * in the Neon theme (palette originally sampled from nebius.com, 2026-05).
- *
- * Narrative: the original "Nebius Builders Network" pitch was a flat PPTX.
- * Superslide ingested it and rebuilt it as this interactive web slideshow.
+ * Showpiece demo deck — a fictional GPU cloud "Cinder" pitching its Builders
+ * Network program. Used purely as content to exercise every slide kind
+ * (title, stats, bullets, comparison, hero3d, code, chart, timeline, quote,
+ * closing). Themed in Neon.
  */
-export const nebiusBuildersDeck: Deck = {
-  id: "nebius-builders",
-  title: "Nebius Builders Network",
+export const cinderBuildersDeck: Deck = {
+  id: "cinder-builders",
+  title: "Cinder Builders Network",
   subtitle: "AI infrastructure, for the people building on top of it.",
-  author: "Nebius Developer Relations",
+  author: "Cinder Developer Relations",
   theme: neonTheme,
   slides: [
     {
@@ -22,15 +21,15 @@ export const nebiusBuildersDeck: Deck = {
       eyebrow: "Builders Network",
       title: "Built for the next generation of AI builders.",
       subtitle:
-        "Compute, credits, mentorship, and a real community of teams shipping on Nebius — from solo hackers to seed-stage startups.",
-      by: "Originally a PPTX · upgraded by Superslide on 26 May 2026",
+        "Compute, credits, mentorship, and a real community of teams shipping on Cinder — from solo hackers to seed-stage startups.",
+      by: "Originally a PPTX · upgraded by Superslide on 27 May 2026",
     },
     {
       id: "s2",
       index: 1,
       kind: "stats",
       eyebrow: "By the numbers",
-      title: "Builders are already shipping on Nebius.",
+      title: "Builders are already shipping on Cinder.",
       stats: [
         { value: "$1M+", label: "in credits granted", hint: "to early-stage AI teams" },
         { value: "12k", label: "builders onboarded", hint: "across 64 countries" },
@@ -105,14 +104,14 @@ export const nebiusBuildersDeck: Deck = {
       kind: "code",
       title: "From zero to running cluster in 6 lines.",
       language: "ts",
-      code: `import { Nebius } from "@nebius/sdk";
+      code: `import { Cinder } from "@cinder/sdk";
 
-const nb = new Nebius({ apiKey: process.env.NEBIUS_API_KEY });
+const cd = new Cinder({ apiKey: process.env.CINDER_API_KEY });
 
-const cluster = await nb.clusters.create({
+const cluster = await cd.clusters.create({
   shape: "h200.8x",            // 8x H200, 1.1TB HBM
   region: "eu-north1",
-  image: "nebius/llm-train:cu125",
+  image: "cinder/llm-train:cu125",
   spot: true,                    // 47% off, preemptible
 });
 
@@ -131,8 +130,8 @@ await cluster.run("torchrun train.py");`,
         { label: "Hyperscaler A (on-demand)", value: 96.4 },
         { label: "Hyperscaler B (reserved)", value: 71.2 },
         { label: "Hyperscaler C (spot)", value: 52.0 },
-        { label: "Nebius (on-demand)", value: 38.0 },
-        { label: "Nebius (spot)", value: 20.1, hint: "Builders Network rate" },
+        { label: "Cinder (on-demand)", value: 38.0 },
+        { label: "Cinder (spot)", value: 20.1, hint: "Builders Network rate" },
       ],
     },
     {
@@ -164,7 +163,7 @@ await cluster.run("torchrun train.py");`,
       subtitle:
         "Apply to the Builders Network and get compute, credits, and a community in the same week.",
       cta: "Apply now",
-      ctaHref: "https://nebius.com/builders",
+      ctaHref: "https://cinder.dev/builders",
     },
   ],
 };

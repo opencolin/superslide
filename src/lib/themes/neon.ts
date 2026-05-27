@@ -1,8 +1,8 @@
 import type { Theme } from "@/lib/deck/schema";
 
 /**
- * Neon theme — palette originally sampled from nebius.com (2026-05).
- * Neon-lime accent on warm off-white reads like a modern infra / OSS brand.
+ * Neon theme — warm off-white background with a neon-lime joy color over
+ * deep navy text. Reads like a modern infra / OSS brand.
  *
  * Light: warm off-white #f3efe8 / navy #052b42 / neon-lime #e0ff4f
  * Dark:  deep navy #061a26 / lime stays vibrant against the navy

@@ -24,7 +24,7 @@ Full product context: [docs/PRD.md](docs/PRD.md).
 ## Routes
 
 - `/` — marketing landing
-- `/demo` — Nebius Builders Network showpiece deck (proves the wedge)
+- `/demo` — Cinder Builders Network showpiece deck (proves the wedge with a fictional GPU cloud)
 - `/upload` — drop file → parse → theme → AI upgrade → present
 - `/api/parse` — POST a file, get back canonical deck JSON
 - `/api/upgrade` — POST raw deck JSON, get back upgraded deck (AI Gateway or heuristic)
