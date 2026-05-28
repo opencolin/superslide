@@ -7,6 +7,9 @@ import { themeToCssVars } from "@/lib/themes/css";
 import { SlideContent } from "./slide-kinds";
 import { AmbientBackdrop } from "@/components/canvas/AmbientBackdrop";
 import { Button } from "@/components/ui/button";
+import { useNarration } from "@/components/narrate/useNarration";
+import { NarrationToggle } from "@/components/narrate/NarrationToggle";
+import { ByokDialog } from "@/components/narrate/ByokDialog";
 import {
   ArrowLeft,
   ArrowRight,
@@ -26,6 +29,12 @@ export function SlideRunner({ deck }: { deck: Deck }) {
 
   const next = useCallback(() => setI((p) => Math.min(total - 1, p + 1)), [total]);
   const prev = useCallback(() => setI((p) => Math.max(0, p - 1)), []);
+
+  const narration = useNarration({
+    slide,
+    onAdvance: next,
+    canAdvance: i < total - 1,
+  });
 
   useEffect(() => {
     function onKey(e: KeyboardEvent) {
@@ -47,6 +56,8 @@ export function SlideRunner({ deck }: { deck: Deck }) {
         setOverview((o) => !o);
       } else if (e.key === "f") {
         toggleFs();
+      } else if (e.key === "n") {
+        narration.toggle();
       } else if (/^[0-9]$/.test(e.key)) {
         const idx = Math.min(total - 1, Math.max(0, parseInt(e.key, 10) - 1));
         setI(idx);
@@ -54,7 +65,7 @@ export function SlideRunner({ deck }: { deck: Deck }) {
     }
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [next, prev, total]);
+  }, [next, prev, total, narration]);
 
   function toggleFs() {
     if (!document.fullscreenElement) {
@@ -81,6 +92,12 @@ export function SlideRunner({ deck }: { deck: Deck }) {
           <span className="truncate max-w-[36ch]">{deck.title}</span>
         </div>
         <div className="flex items-center gap-2">
+          <NarrationToggle
+            enabled={narration.enabled}
+            loading={narration.loading}
+            playing={narration.playing}
+            onToggle={narration.toggle}
+          />
           <Button
             variant="ghost"
             size="icon"
@@ -137,8 +154,9 @@ export function SlideRunner({ deck }: { deck: Deck }) {
           <div className="hidden font-mono text-[11px] uppercase tracking-widest text-fg-muted md:block">
             <kbd className="rounded border border-line bg-surface px-1.5 py-0.5">←</kbd>{" "}
             <kbd className="rounded border border-line bg-surface px-1.5 py-0.5">→</kbd>{" "}
-            navigate · <kbd className="rounded border border-line bg-surface px-1.5 py-0.5">O</kbd>{" "}
-            overview · <kbd className="rounded border border-line bg-surface px-1.5 py-0.5">F</kbd>{" "}
+            nav · <kbd className="rounded border border-line bg-surface px-1.5 py-0.5">O</kbd>{" "}
+            overview · <kbd className="rounded border border-line bg-surface px-1.5 py-0.5">N</kbd>{" "}
+            narrate · <kbd className="rounded border border-line bg-surface px-1.5 py-0.5">F</kbd>{" "}
             full
           </div>
         </div>
@@ -146,6 +164,22 @@ export function SlideRunner({ deck }: { deck: Deck }) {
           <ArrowRight size={18} />
         </Button>
       </footer>
+
+      {/* BYOK ElevenLabs dialog — surfaces on quota / invalid-key from the
+          narration API so a single click → paste → continue keeps the loop
+          running without a page refresh. */}
+      <ByokDialog
+        open={narration.byokRequired}
+        reason={narration.byokReason}
+        source={narration.byokSource}
+        hasUserKey={narration.hasUserKey}
+        onSave={(key) => {
+          narration.saveUserKey(key);
+          narration.setEnabled(true);
+        }}
+        onClose={narration.dismissByok}
+        onClearKey={narration.clearUserKey}
+      />
 
       {/* Overview grid */}
       <AnimatePresence>

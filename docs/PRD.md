@@ -152,6 +152,7 @@ We explicitly de-prioritize: students, casual users making birthday slideshows, 
 - V1: **fragment reveals** within a slide (bullets that step through on space).
 - V1: **draw / annotate** mode for live presentations.
 - V2: **timer-driven autoplay** for kiosk / lobby decks.
+- **Narration ("podcast mode")** — ElevenLabs TTS reads each slide's speaker notes (or composed script from slide content) and auto-advances on `ended`. Server resolves the API key in this order: per-request `x-elevenlabs-key` header (BYOK) → `ELEVENLABS_API_KEY` env (shared). When the shared key returns `quota_exceeded` or `invalid_api_key`, the API returns 402 with `{ source: "shared" }` so the viewer can prompt the user to paste their own key. The user's key lives only in `localStorage` and is forwarded on per-request narration calls.
 
 ### 7.5 Hosting and sharing
 - Every saved deck lives at a stable URL: `superslide.app/d/<slug>` or under a custom domain.

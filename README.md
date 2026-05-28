@@ -38,6 +38,8 @@ pnpm dev      # http://localhost:3000
 
 For live AI upgrades, set `AI_GATEWAY_API_KEY` in `.env.local`. Without a key, the deck still upgrades via a rules-based heuristic — no signup needed to try it.
 
+For slide narration ("podcast mode"), set `ELEVENLABS_API_KEY`. Without it, viewers are prompted to paste their own key into the slideshow chrome — it's stored in their browser's `localStorage` only, never persisted server-side.
+
 ## Project layout
 
 ```
